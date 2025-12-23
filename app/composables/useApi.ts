@@ -5,10 +5,11 @@ export const useApi = () => {
   const apiCall = async (endpoint: string, options: any = {}) => {
     try {
       const headers: any = {
-        "Content-Type": "application/json",
         ...options.headers,
       };
-
+       if (!(options.body instanceof FormData)) {
+         headers["Content-Type"] = "application/json";
+       }
       if (token.value && !options.skipAuth) {
         headers["Authorization"] = `Bearer ${token.value}`;
       }
